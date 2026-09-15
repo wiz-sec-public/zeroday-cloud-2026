@@ -1,0 +1,15 @@
+services:
+  grafana:
+    image: grafana/grafana:latest
+    container_name: zerodaycloud-grafana
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: zerodaycloud1!
+      GF_AUTH_ANONYMOUS_ENABLED: "false"
+      GF_PLUGINS_PLUGIN_ADMIN_ENABLED: "false"
+      GF_PLUGINS_PLUGIN_ADMIN_EXTERNAL_MANAGE_ENABLED: "false"
+      GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS: ""
+      GF_PLUGINS_PREINSTALL_DISABLED: "true"
+    ports:
+      - "3000:3000"
+    restart: unless-stopped

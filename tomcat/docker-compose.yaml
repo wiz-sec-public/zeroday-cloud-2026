@@ -1,0 +1,12 @@
+services:
+  tomcat:
+    image: tomcat:latest
+    container_name: zerodaycloud-tomcat
+    entrypoint: ["/bin/sh", "/zdc-entrypoint.sh"]
+    volumes:
+      - ./entrypoint.sh:/zdc-entrypoint.sh:ro
+      - ./server.xml:/usr/local/tomcat/conf/server.xml:ro
+    ports:
+      - "8080:8080"
+      - "8443:8443"
+    restart: unless-stopped

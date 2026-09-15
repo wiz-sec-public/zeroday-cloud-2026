@@ -1,0 +1,13 @@
+services:
+  redis:
+    image: redis:latest
+    container_name: zerodaycloud-redis
+    command: ["redis-server", "--requirepass", "zerodaycloud1!"]
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "zerodaycloud1!", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped

@@ -1,0 +1,33 @@
+services:
+  certificate:
+    image: alpine/openssl:latest
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - >-
+        test -s /certs/apache.key && test -s /certs/apache.crt ||
+        exec openssl req -x509 -nodes -days 365 -newkey rsa:2048
+        -keyout /certs/apache.key -out /certs/apache.crt
+        -subj /CN=localhost -addext subjectAltName=DNS:localhost,IP:127.0.0.1
+    volumes:
+      - certificates:/certs
+    restart: "no"
+
+  apache2:
+    image: httpd:latest
+    container_name: zerodaycloud-apache2
+    depends_on:
+      certificate:
+        condition: service_completed_successfully
+    entrypoint: ["/bin/sh", "/zdc-entrypoint.sh"]
+    volumes:
+      - ./entrypoint.sh:/zdc-entrypoint.sh:ro
+      - ./ssl.conf:/usr/local/apache2/conf/extra/zdc-ssl.conf:ro
+      - ./htdocs:/usr/local/apache2/htdocs:ro
+      - certificates:/usr/local/apache2/conf/certs:ro
+    ports:
+      - "8080:80"
+      - "8443:443"
+    restart: unless-stopped
+
+volumes:
+  certificates:

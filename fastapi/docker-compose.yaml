@@ -1,0 +1,13 @@
+services:
+  fastapi:
+    build:
+      context: .
+    container_name: zerodaycloud-fastapi
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/')"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped

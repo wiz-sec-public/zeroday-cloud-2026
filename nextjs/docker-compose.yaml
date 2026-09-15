@@ -1,0 +1,13 @@
+services:
+  nextjs:
+    build:
+      context: .
+    container_name: zerodaycloud-nextjs
+    ports:
+      - "3000:3000"
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:3000/').then(r => { if (!r.ok) process.exit(1) }).catch(() => process.exit(1))"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped

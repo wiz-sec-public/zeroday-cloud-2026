@@ -1,0 +1,76 @@
+services:
+  database:
+    image: mariadb:11
+    environment:
+      MARIADB_DATABASE: wordpress
+      MARIADB_USER: wordpress
+      MARIADB_PASSWORD: wordpress-internal
+      MARIADB_ROOT_PASSWORD: wordpress-root-internal
+    volumes:
+      - database-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+    restart: unless-stopped
+
+  wordpress:
+    image: wordpress:latest
+    container_name: zerodaycloud-wordpress
+    depends_on:
+      database:
+        condition: service_healthy
+    environment:
+      WORDPRESS_DB_HOST: database:3306
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress-internal
+    volumes:
+      - wordpress-data:/var/www/html
+    ports:
+      - "8080:80"
+    healthcheck:
+      test: ["CMD", "php", "-r", "exit(@fsockopen('127.0.0.1', 80) ? 0 : 1);"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+    restart: unless-stopped
+
+  installer:
+    image: wordpress:cli
+    depends_on:
+      wordpress:
+        condition: service_healthy
+    user: "33:33"
+    environment:
+      WORDPRESS_DB_HOST: database:3306
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress-internal
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        until wp core is-installed --path=/var/www/html 2>/dev/null; do
+          wp core install --path=/var/www/html \
+            --url=http://localhost:8080 \
+            --title='zeroday.cloud WordPress target' \
+            --admin_user=admin \
+            --admin_password='zerodaycloud1!' \
+            --admin_email=admin@example.invalid \
+            --skip-email && break
+          sleep 3
+        done
+        for plugin in $$(wp plugin list --path=/var/www/html --field=name); do
+          wp plugin delete --path=/var/www/html "$$plugin"
+        done
+        for theme in $$(wp theme list --path=/var/www/html --status=inactive --field=name); do
+          wp theme delete --path=/var/www/html "$$theme"
+        done
+    volumes:
+      - wordpress-data:/var/www/html
+    restart: "no"
+
+volumes:
+  database-data:
+  wordpress-data:

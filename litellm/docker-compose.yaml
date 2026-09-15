@@ -1,0 +1,30 @@
+services:
+  mock-openai:
+    build:
+      context: ./mock-openai
+    environment:
+      MOCK_OPENAI_API_KEY: internal-mock-key
+    expose:
+      - "8080"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8080/health')"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+
+  litellm:
+    image: litellm/litellm:latest
+    container_name: zerodaycloud-litellm
+    depends_on:
+      mock-openai:
+        condition: service_healthy
+    command: ["--config", "/app/config.yaml", "--port", "4000", "--num_workers", "1"]
+    environment:
+      LITELLM_MASTER_KEY: sk-zdc-litellm-master-key
+      MOCK_OPENAI_API_KEY: internal-mock-key
+    volumes:
+      - ./config.yaml:/app/config.yaml:ro
+    ports:
+      - "4000:4000"
+    restart: unless-stopped
