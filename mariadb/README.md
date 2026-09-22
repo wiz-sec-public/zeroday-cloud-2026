@@ -1,13 +1,12 @@
 # MariaDB
 
-## Objective and eligible scenarios
+## Objective and eligibility
 
-Achieve remote code execution through MariaDB on TCP port `3306` and execute `/flag.sh mariadb` in the target container.
+Achieve unauthenticated remote code execution through MariaDB on TCP port `3306` and execute `/flag.sh mariadb` in the target container.
 
-- **Authenticated:** use only the low-privileged `demo` account, password `zerodaycloud1!`, database `demo`.
-- **Unauthenticated:** obtain RCE without credentials.
+Only pre-authentication scenarios are eligible. The service has authentication enabled; the entry must achieve RCE without credentials or an authenticated session. Authenticated (post-auth) scenarios are not eligible.
 
-The root account (`root` / `zerodaycloud1!`) exists for environment administration and is not an eligible authenticated starting point. `LOCAL INFILE` is disabled.
+`LOCAL INFILE` is disabled.
 
 ## Local environment
 
@@ -16,3 +15,7 @@ docker compose pull
 docker compose up -d
 mariadb -h 127.0.0.1 -u demo -p'zerodaycloud1!' demo
 ```
+
+The authenticated connection above is only a local setup/health check, not an eligible starting point for a competition entry.
+
+The low-privileged `demo` account and the `root` account use the password `zerodaycloud1!` for local testing and administration only; neither account may be used as an authenticated starting point.

@@ -4,6 +4,12 @@ This repository contains setup instructions and local testing environments for t
 
 For more information about the event, check out the [official event page](https://zeroday.cloud).
 
+## Database eligibility
+
+The [PostgreSQL](postgresql/README.md), [MariaDB](mariadb/README.md), and [Redis](redis/README.md) targets are **pre-authentication only**. Entries must achieve remote code execution without credentials or an authenticated session, with authentication enabled on the target service. Authenticated (post-auth) database scenarios are not eligible.
+
+Credentials and authenticated commands provided in these local environments are for setup, health checks, and administration only, not eligible starting points for competition entries. See each target's README for its specific requirements.
+
 
 ## Disclaimer
 
