@@ -2,7 +2,9 @@
 
 ## Objective and eligible scenario
 
-Escape from a standard Firecracker microVM guest and compromise the Linux host by executing `/flag.sh firecracker` on the host or reading `/flag`. The attacker starts as root inside the guest. Vulnerabilities in Firecracker and its jailer are eligible; generic KVM, host-kernel, and guest-kernel vulnerabilities are excluded.
+Escape from a standard Firecracker microVM guest and achieve code execution on the Linux host, demonstrated by executing `/flag.sh firecracker` on the host. The attacker starts as root inside the guest. Vulnerabilities in Firecracker and its jailer are eligible; generic KVM, host-kernel, and guest-kernel vulnerabilities are excluded.
+
+The full advertised target prize requires host code execution. Reading the host's `/flag` without host code execution is eligible for a separate, lower reward tier, with the amount pending. See the [host code execution and file-read reward clarification](../README.md#host-code-execution-and-file-read-rewards).
 
 The competition microVM uses the current Firecracker defaults, a read/write ext4 root drive, one network interface, and no host filesystem sharing or additional host devices. Firecracker is launched through the supplied `jailer` with its default seccomp filters. There is no network service port: the attack begins inside the microVM.
 

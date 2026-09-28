@@ -2,7 +2,9 @@
 
 ## Objective and eligible scenarios
 
-Escape a container sandboxed by the latest stable gVisor `runsc` runtime and compromise the host by executing `/flag.sh gvisor` on the host or reading `/flag`. gVisor Sentry, Gofer, platform, and runtime flaws are eligible. Generic host Linux-kernel flaws are excluded.
+Escape a container sandboxed by the latest stable gVisor `runsc` runtime and achieve code execution on the host, demonstrated by executing `/flag.sh gvisor` on the host. gVisor Sentry, Gofer, platform, and runtime flaws are eligible. Generic host Linux-kernel flaws are excluded.
+
+The full advertised target prize requires host code execution. Reading the host's `/flag` without host code execution is eligible for a separate, lower reward tier, with the amount pending. See the [host code execution and file-read reward clarification](../README.md#host-code-execution-and-file-read-rewards).
 
 - **User-image scenario:** `sudo docker run --rm -it --runtime=runsc <image>`.
 - **Arbitrary-payload scenario:** the payload is copied into an organizer-selected image:

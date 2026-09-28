@@ -2,7 +2,9 @@
 
 ## Objective and eligible scenarios
 
-Escape a Docker container and compromise the Ubuntu host by executing `/flag.sh docker` on the host or reading the host file `/flag`. Generic Linux-kernel vulnerabilities are excluded.
+Escape a Docker container and achieve code execution on the Ubuntu host, demonstrated by executing `/flag.sh docker` on the host. Generic Linux-kernel vulnerabilities are excluded.
+
+The full advertised target prize requires host code execution. Reading the host's `/flag` without host code execution is eligible for a separate, lower reward tier, with the amount pending. See the [host code execution and file-read reward clarification](../README.md#host-code-execution-and-file-read-rewards).
 
 - **User-image scenario:** provide an image, launched as `docker run --rm -it <image>`.
 - **Arbitrary-payload scenario:** provide a shell script or executable. It is copied into an organizer-selected, unprivileged `ubuntu:latest` container and executed as shown below. Contestants do not choose this scenario's image.
