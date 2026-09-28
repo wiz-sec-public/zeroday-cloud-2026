@@ -2,7 +2,9 @@
 
 ## Objective and eligible scenario
 
-Escape an NVIDIA-enabled Docker container and compromise the host by executing `/flag.sh nct` on the host or reading `/flag`. Vulnerabilities in NVIDIA Container Toolkit components and NVIDIA driver components exposed to the container are eligible. Generic Linux-kernel vulnerabilities are excluded.
+Escape an NVIDIA-enabled Docker container and achieve code execution on the host, demonstrated by executing `/flag.sh nct` on the host. Vulnerabilities in NVIDIA Container Toolkit components and NVIDIA driver components exposed to the container are eligible. Generic Linux-kernel vulnerabilities are excluded.
+
+The full advertised target prize requires host code execution. Reading the host's `/flag` without host code execution is eligible for a separate, lower reward tier, with the amount pending. See the [host code execution and file-read reward clarification](../README.md#host-code-execution-and-file-read-rewards).
 
 Contestants provide their own container image, launched as:
 
