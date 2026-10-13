@@ -1,11 +1,8 @@
 # Kubelet
 
-## Objective and eligible scenarios
+## Objective and eligibility
 
-Achieve remote code execution in Kubelet and execute `/flag.sh kubelet` on the target Kubernetes node.
-
-- **Unauthenticated:** attack HTTPS `10250` or read-only HTTP `10255` without a token or client certificate.
-- **Authenticated:** begin with only the default Service Account token automatically mounted into a standard pod, then attack `10250` or `10255`.
+Achieve unauthenticated remote code execution in Kubelet through HTTPS `10250` or read-only HTTP `10255` without a token or client certificate, and execute `/flag.sh kubelet` on the target Kubernetes node.
 
 The Kubelet and its default in-process stack are eligible. The node kernel, Docker/containerd escape paths, and other Kubernetes components are excluded.
 
@@ -32,7 +29,7 @@ EOF
 kubectl wait --for=condition=Ready node/zdc-kubelet-worker --timeout=120s
 ```
 
-### Create test pods
+### Create a test pod
 
 ```bash
 kubectl apply -f - <<'EOF'
@@ -46,18 +43,8 @@ spec:
     - name: client
       image: curlimages/curl:latest
       command: ["sleep", "infinity"]
----
-apiVersion: v1
-kind: Pod
-metadata:
-  name: kubelet-with-token
-spec:
-  containers:
-    - name: client
-      image: curlimages/curl:latest
-      command: ["sleep", "infinity"]
 EOF
-kubectl wait --for=condition=Ready pod/kubelet-no-token pod/kubelet-with-token --timeout=120s
+kubectl wait --for=condition=Ready pod/kubelet-no-token --timeout=120s
 ```
 
 ### Test access to the Kubelet APIs
@@ -69,9 +56,6 @@ kubectl exec kubelet-no-token -- curl -fsS "http://${node_ip}:10255/pods"
 
 kubectl exec kubelet-no-token -- curl -sk -o /dev/null -w '%{http_code}\n' \
   "https://${node_ip}:10250/pods"
-
-kubectl exec kubelet-with-token -- sh -c \
-  "token=\$(cat /var/run/secrets/kubernetes.io/serviceaccount/token); curl -sk -o /dev/null -w '%{http_code}\\n' -H \"Authorization: Bearer \${token}\" https://${node_ip}:10250/pods"
 ```
 
 ## Submission & Eligibility Guidelines
