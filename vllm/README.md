@@ -2,7 +2,7 @@
 
 ## Objective and eligibility
 
-Achieve unauthenticated remote code execution through the OpenAI-compatible HTTP API on port `8000` and execute `/flag.sh vllm` in the target container. The vulnerability must be in vLLM; malicious or backdoored model code is excluded.
+Achieve unauthenticated remote code execution through the OpenAI-compatible HTTP API on port `8000` and execute `/flag.sh vllm` in the target container. The vulnerability must reside in vLLM's own codebase. For clarity, backdoored model code and FFmpeg vulnerabilities - even when triggered through vLLM - are excluded.
 
 The competition environment will run vLLM on an NVIDIA GPU. The model may be changed to any publicly available model from a reputable source. State the required model in the submission so it can be cached for demo day.
 
