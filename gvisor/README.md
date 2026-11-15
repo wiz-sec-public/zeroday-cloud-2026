@@ -11,8 +11,8 @@ The full advertised target prize requires host code execution. Reading the host'
 
 ```bash
 sudo docker create --name zdc-gvisor-payload --runtime=runsc ubuntu:latest sleep infinity
-sudo docker start zdc-gvisor-payload
 sudo docker cp ./payload zdc-gvisor-payload:/tmp/payload
+sudo docker start zdc-gvisor-payload
 sudo docker exec zdc-gvisor-payload chmod 0755 /tmp/payload
 sudo docker exec -it zdc-gvisor-payload /tmp/payload
 sudo docker rm -f zdc-gvisor-payload
