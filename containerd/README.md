@@ -4,7 +4,7 @@
 
 Escape a containerd container and achieve code execution on the Ubuntu host, demonstrated by executing `/flag.sh containerd` on the host. Generic Linux-kernel vulnerabilities are excluded.
 
-The full advertised target prize requires host code execution. Reading the host's `/flag` without host code execution is eligible for a separate, lower reward tier, with the amount pending. See the [host code execution and file-read reward clarification](../README.md#host-code-execution-and-file-read-rewards).
+Host code execution is required for eligibility. See the [code execution requirement](../README.md#code-execution-requirement).
 
 - **User-image scenario:** `sudo nerdctl run --rm -it <image>`.
 - **Arbitrary-payload scenario:** the payload is copied into an organizer-selected `ubuntu:latest` container:

@@ -4,7 +4,7 @@
 
 Escape a container sandboxed by the latest stable gVisor `runsc` runtime and achieve code execution on the host, demonstrated by executing `/flag.sh gvisor` on the host. gVisor Sentry, Gofer, platform, and runtime flaws are eligible. Generic host Linux-kernel flaws are excluded.
 
-The full advertised target prize requires host code execution. 
+Host code execution is required for eligibility. See the [code execution requirement](../README.md#code-execution-requirement).
 
 - **User-image scenario:** `sudo docker run --rm -it --runtime=runsc <image>`.
 - **Arbitrary-payload scenario:** the payload is copied into an organizer-selected image:
