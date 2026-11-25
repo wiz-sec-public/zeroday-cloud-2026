@@ -9,7 +9,6 @@ This is the official Google VRP environment: the edge Envoy forwards `/content/*
 ## Local environment
 
 ```bash
-docker compose pull
 docker compose up -d
 curl -k https://localhost:10000/content/
 ```

@@ -1,6 +1,10 @@
 services:
   envoy-vrp:
-    image: envoyproxy/envoy-google-vrp-dev:latest
+    build:
+      context: .
+      pull: true
+      no_cache: true
+    pull_policy: build
     platform: linux/amd64
     environment:
       ENVOY_EDGE_EXTRA_ARGS: "--log-level info"
